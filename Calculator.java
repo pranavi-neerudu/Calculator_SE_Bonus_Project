@@ -212,7 +212,10 @@ public class Calculator implements ActionListener
                 tf.setText(String.valueOf(n));
             }
         }
-        
+        if(e.getSource()==b17)
+        {
+            tf.setText("");
+        }
     }
  
     public static void main(String[] abc) 
