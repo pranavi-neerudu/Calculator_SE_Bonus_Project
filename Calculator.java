@@ -11,10 +11,13 @@ public class Calculator implements ActionListener
     int c,n;
     String s1,s2,s3,s4,s5;
     JFrame f;
-    JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17;
+    JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17,b18;
     JPanel p;
   JTextField tf;
     GridLayout g;
+	int operation = -1;
+    long num1 = 0;
+    boolean newOperation = true;
     Calculator()
     {
         f = new JFrame("calulator");
@@ -52,20 +55,36 @@ public class Calculator implements ActionListener
         b15.addActionListener(this);
         b16 = new JButton("=");
         b16.addActionListener(this);
-        b17 = new JButton("c");
+        b17 = new JButton("C");
         b17.addActionListener(this);
+	b18=new JButton("AC");
+	b18.addActionListener(this);
         tf = new JTextField(20);
         f.add(tf);
         g = new GridLayout(4,4,10,20);
         p.setLayout(g);
         p.add(b1);p.add(b2);p.add(b3);p.add(b4);p.add(b5);p.add(b6);p.add(b7);p.add(b8);p.add(b9);
-        p.add(b10);p.add(b11);p.add(b12);p.add(b13);p.add(b14);p.add(b15);p.add(b16);p.add(b17);
+        p.add(b10);p.add(b11);p.add(b12);p.add(b13);p.add(b14);p.add(b15);p.add(b16);p.add(b17);p.add(b18);
         f.add(p);
         f.setSize(300,300);
         f.setVisible(true);
     }
     public void actionPerformed(ActionEvent e)
     {
+	JButton clickedButton = (JButton) e.getSource();
+        String buttonText = clickedButton.getText();
+	
+	switch(buttonText){
+	
+	case "C":
+        	tf.setText("");
+                break;
+        case "AC":
+                s1 = s2 = s3 = s4 = s5 = "";
+                c = n = 0;
+                tf.setText("");
+                break;
+	default:
         if(e.getSource()==b1)
         {
             s3 = tf.getText();
@@ -173,6 +192,7 @@ public class Calculator implements ActionListener
         if(e.getSource()==b16)
         {
             s2 = tf.getText();
+	    try{
             if(c==1)
             {
                 n = Integer.parseInt(s1)+Integer.parseInt(s2);
@@ -192,30 +212,34 @@ public class Calculator implements ActionListener
             }
             if(c==4)
             {
-                try
-                {
                     int p=Integer.parseInt(s2);
                     if(p!=0)
                     {
-                                        n = Integer.parseInt(s1)/Integer.parseInt(s2);
+                    n = Integer.parseInt(s1)/Integer.parseInt(s2);
                     tf.setText(String.valueOf(n));
-                     }
-                     else
-                        tf.setText("infinite");
- 
-                }
-                catch(Exception i){}
+                    }
+                     else{
+                        tf.setText("ERR");
+			return;
+			}
             }
             if(c==5)
             {
                 n = Integer.parseInt(s1)%Integer.parseInt(s2);
                 tf.setText(String.valueOf(n));
             }
+	    if (String.valueOf(n).length() > 8) {
+                      tf.setText("ERR");
+            } else {
+                      tf.setText(String.valueOf(n));
+            }
+	}
+	catch (NumberFormatException ex) {
+                            tf.setText("ERR");
+              }	
         }
-        if(e.getSource()==b17)
-        {
-            tf.setText("");
-        }
+	break;
+
     }
  
     public static void main(String[] abc) 
